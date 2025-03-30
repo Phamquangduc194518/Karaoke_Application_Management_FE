@@ -12,7 +12,7 @@ const addMusic = (data)=>{
 }
 
 const getAllMusic = ()=>{
-    return api.get('/api/song/getSong');
+    return api.get('/api/song/getSongAdmin');
 }
 
 const updateProfile = (userId, data)=>{
@@ -40,7 +40,30 @@ const updateArtist =(artistId, data)=>{
 const updateAlbum =(albumId, data)=>{
     return api.patch(`/api/song/updateAlbum/${albumId}`, data)
 }
-
+const createTopic =(data)=>{
+    return api.post('/api/createTopic', data)
+}
+const getAllTopicsWithVideo =()=>{
+    return api.get('/api/getAllTopicsWithVideo')
+}
+const createVideoOfTopic =(data)=>{
+    return api.post('/api/createVideoOfTopic', data)
+}
+const getSongRequestFromUser =()=>{
+    return api.get('/api/admin/getSongRequestFromUser')
+}
+const createReplie = (data) =>{
+    return api.post('/api/admin/createReplie', data)
+}
+const updateStatus = (data) =>{
+    return api.patch('/api/admin/updateStatus', data)
+}
+const deleteSong = (data) =>{
+    return api.delete('/api/song/deleteSong', {data})
+}
+const addSongToAlbum = (data) =>{
+    return api.post('/api/song/addSongToAlbum', data)
+}
 export{
     handleLoginAPI,
     getAllAccount,
@@ -52,5 +75,13 @@ export{
     updateArtist,
     getAllAlbum,
     createAlbum,
-    updateAlbum
+    updateAlbum,
+    createTopic,
+    getAllTopicsWithVideo,
+    createVideoOfTopic,
+    getSongRequestFromUser,
+    createReplie,
+    updateStatus,
+    deleteSong,
+    addSongToAlbum
 }

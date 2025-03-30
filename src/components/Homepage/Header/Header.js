@@ -21,6 +21,9 @@ function Header() {
       <nav className="header__nav">
         <ul className="header__nav-list">
           <li className="header__nav-item">
+            <Link to="/feedBack" className="header__nav-link">Phản Hồi</Link>
+          </li>
+          <li className="header__nav-item">
             <Link to="/users" className="header__nav-link">Quản lý User</Link>
           </li>
           <li className="header__nav-item header__nav-item--dropdown">
@@ -30,15 +33,15 @@ function Header() {
                 <Link to="/music/list" className="header__dropdown-link">Danh sách nhạc</Link>
               </li>
               <li className="header__dropdown-item">
-                <Link to="/music/add" className="header__dropdown-link">Thêm nhạc</Link>
-              </li>
-              <li className="header__dropdown-item">
                 <Link to="/album/add" className="header__dropdown-link">Thêm Abum</Link>
               </li>
               <li className="header__dropdown-item">
                 <Link to="/artist/add" className="header__dropdown-link">Thêm Ca sĩ</Link>
               </li>
             </ul>
+          </li>
+          <li className="header__nav-item">
+            <Link to="/post" className="header__nav-link">Quản lý Bài Đăng</Link>
           </li>
           <li className="header__nav-item header__nav-item--logout">
           <button  

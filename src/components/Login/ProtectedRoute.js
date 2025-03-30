@@ -1,9 +1,11 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate} from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Component ProtectedRoute
-const ProtectedRoute = ({ isAuthenticated, children }) => {
-  // Nếu chưa đăng nhập, điều hướng đến trang login
+const ProtectedRoute = ({children, isAuthenticated}) => {
+  console.log("Protected Route - Auth status:", isAuthenticated);
+  // Nếu chưa xác thực, chuyển hướng đến trang login
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }

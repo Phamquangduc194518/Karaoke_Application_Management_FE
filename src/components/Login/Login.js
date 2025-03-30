@@ -61,8 +61,10 @@ class Login extends Component {
     this.setState({ errMessage: '' }); // Reset lỗi
     try {
       await this.props.login({ email, password }); // Dispatch action login
+      console.log("Authentication state after login:", this.props.isAuthenticated);
+      console.log("Token in localStorage:", localStorage.getItem('token'));
       if (this.props.isAuthenticated) {
-        this.props.navigate('/users'); // Điều hướng sau khi đăng nhập thành công
+        this.props.navigate('/feedBack'); // Điều hướng sau khi đăng nhập thành công
       }else {
         this.setState({ errMessage: 'Authentication failed. Please try again.' });
     }

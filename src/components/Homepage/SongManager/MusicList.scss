@@ -1,60 +1,1947 @@
-.song-list-container {
-    margin: 20px;
-    font-family: Arial, sans-serif;
-    color: #fff;
-    background-color: #121212; /* Màu nền */
-    border-radius: 8px;
-    overflow: hidden;
+.music-management {
+  max-width: 1300px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+  font-family: 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+  color: #111827;
+  
+  .title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: #111827;
+    position: relative;
+    padding-bottom: 16px;
+    letter-spacing: -0.5px;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      border-radius: 4px;
+    }
   }
   
-  .song-table {
-    width: 100%;
-    border-collapse: collapse;
+  // Tabs navigation
+  .tabs-navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e5e7eb;
+    gap: 5px;
+    
+    .tab-button {
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #6b7280;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      svg {
+        font-size: 18px;
+      }
+      
+      &:hover {
+        color: #3b82f6;
+      }
+      
+      &.active {
+        color: #3b82f6;
+        border-bottom-color: #3b82f6;
+      }
+      
+      &:disabled {
+        color: #9ca3af;
+        cursor: not-allowed;
+      }
+    }
   }
   
-  .song-table thead {
-    background-color: #1e1e1e;
+  // Form
+  .form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    background-color: #f9fafb;
+    padding: 32px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.03);
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      
+      label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #4b5563;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 4px;
+          height: 4px;
+          background-color: #3b82f6;
+          border-radius: 50%;
+          margin-left: 6px;
+        }
+      }
+      
+      input, select, textarea {
+        padding: 12px 16px;
+        font-size: 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background-color: #fff;
+        color: #1f2937;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.01);
+        
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        
+        &::placeholder {
+          color: #9ca3af;
+        }
+        
+        &[type="date"] {
+          font-family: inherit;
+          cursor: pointer;
+        }
+      }
+      
+      select {
+        cursor: pointer;
+        appearance: none;
+        padding-right: 36px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        
+        option {
+          padding: 8px;
+        }
+      }
+      
+      .file-upload {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+        
+        input[type="text"] {
+          flex: 1;
+          min-width: 200px;
+        }
+        
+        .file-name {
+          padding: 12px 16px;
+          background-color: #f3f4f6;
+          border-radius: 10px;
+          font-size: 14px;
+          color: #4b5563;
+          flex: 1;
+        }
+        
+        .upload-button {
+          padding: 12px 16px;
+          border: none;
+          border-radius: 10px;
+          font-weight: 600;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background-color: #10b981;
+          color: white;
+          margin: 0;
+          
+          &:hover {
+            background-color: #059669;
+            transform: translateY(-1px);
+          }
+          
+          &:after {
+            display: none;
+          }
+        }
+      }
+      
+      .preview {
+        width: 150px;
+        height: 150px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 3px solid #e5e7eb;
+        background-color: #f9fafb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          border-color: #3b82f6;
+          transform: scale(1.02);
+        }
+        
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        
+        &:after {
+          content: 'Album Cover';
+          position: absolute;
+          bottom: -25px;
+          left: 0;
+          right: 0;
+          text-align: center;
+          font-size: 12px;
+          font-weight: 500;
+          color: #6b7280;
+        }
+      }
+    }
+    
+    // Trường thuộc album 
+    .form-group[data-field="album_id"] {
+      select {
+        background-color: #f5f3ff;
+        border-color: #ddd6fe;
+        transition: all 0.25s ease;
+        
+        &:focus {
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+        }
+        
+        option {
+          background-color: #fff;
+          color: #333; // Màu chữ tối
+          padding: 8px 12px;
+      
+          &:hover, &:focus {
+          background-color: #f5f3ff;
+          }
+      
+           // Option đầu tiên ("-- Chọn album --")
+          &:first-child {
+          font-style: italic;
+          }
+        }
+      }
+      
+      label {
+        color: #6d28d9;
+        display: flex;
+        align-items: center;
+        
+        &:before {
+          content: '🎵';
+          margin-right: 6px;
+          font-size: 14px;
+        }
+        
+        &:after {
+          background-color: #8b5cf6;
+        }
+      }
+    }
+    
+    
+    // ReactQuill editor cho lời bài hát
+    .lyrics-editor {
+      grid-column: span 2;
+      margin-top: 10px;
+      
+      label {
+        margin-bottom: 8px;
+      }
+      
+      .quill {
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: visible;
+        
+        .ql-toolbar {
+          border: 1px solid #e5e7eb;
+          border-radius: 10px 10px 0 0;
+          background-color: #f9fafb;
+          padding: 8px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 5px;
+        }
+        
+        .ql-container {
+          border: 1px solid #e5e7eb;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          height: auto;
+        }
+        
+        .ql-editor {
+          height: 300px; // Chiều cao cố định
+          overflow-y: auto; // Cho phép cuộn dọc
+          font-size: 15px;
+          line-height: 1.6;
+          padding: 12px 15px;
+          
+          // Tùy chỉnh thanh cuộn
+          &::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+          }
+          
+          &::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+            
+            &:hover {
+              background: #a8a8a8;
+            }
+          }
+          
+          // Cải thiện kiểu dáng cho nội dung
+          p {
+            margin-bottom: 8px;
+          }
+          
+          h1, h2, h3, h4, h5, h6 {
+            margin-top: 16px;
+            margin-bottom: 8px;
+          }
+          
+          ol, ul {
+            padding-left: 24px;
+          }
+        }
+      }
+    }
+    
+    .save-button {
+      grid-column: span 2;
+      justify-self: end;
+      width: auto;
+      min-width: 180px;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      
+      &:hover {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+      }
+      
+      &:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+      }
+    }
   }
   
-  .song-table th {
-    text-align: left;
-    padding: 10px;
-    font-weight: normal;
-    color: #aaa;
+  // Song List Section
+  .song-list-section {
+    animation: fadeIn 0.5s ease-out;
+    
+    .list-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      
+      .search-box {
+        position: relative;
+        width: 300px;
+        
+        input {
+          width: 100%;
+          padding: 12px 16px 12px 40px;
+          border: 1px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 14px;
+          transition: all 0.2s ease;
+          
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+          }
+        }
+        
+        i {
+          position: absolute;
+          left: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #9ca3af;
+        }
+      }
+      
+      .list-filters {
+        display: flex;
+        gap: 12px;
+        
+        select {
+          padding: 12px 16px;
+          border: 1px solid #e5e7eb;
+          border-radius: 10px;
+          font-size: 14px;
+          color: #4b5563;
+          background-color: #fff;
+          transition: all 0.2s ease;
+          cursor: pointer;
+          
+          &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+          }
+        }
+      }
+      
+      .add-new-btn {
+        padding: 12px 20px;
+        background-color: #10b981;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        &:hover {
+          background-color: #059669;
+          transform: translateY(-1px);
+        }
+      }
+    }
   }
   
-  .song-table tbody tr {
-    border-bottom: 1px solid #333;
+  // Song List Table
+  .song-list {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    padding: 24px;
+    overflow: auto;
+    
+    h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      color: #111827;
+      position: relative;
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      
+      &:before {
+        content: '🎵';
+        margin-right: 10px;
+        font-size: 20px;
+      }
+      
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: #3b82f6;
+        border-radius: 3px;
+      }
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      
+      th, td {
+        padding: 16px;
+        text-align: left;
+        vertical-align: middle;
+      }
+      
+      th {
+        background-color: #f3f4f6;
+        color: #4b5563;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid #e5e7eb;
+        
+        &:first-child {
+          border-top-left-radius: 10px;
+        }
+        
+        &:last-child {
+          border-top-right-radius: 10px;
+        }
+      }
+      
+      tbody {
+        tr {
+          transition: all 0.2s ease;
+          cursor: pointer;
+          
+          &:hover {
+            background-color: #f9fafb;
+          }
+          
+          &.selected {
+            background-color: #eff6ff;
+            border-left: 3px solid #3b82f6;
+            
+            &:hover {
+              background-color: #dbeafe;
+            }
+          }
+          
+          &:nth-child(even) {
+            background-color: #f9fafb;
+            
+            &:hover {
+              background-color: #f3f4f6;
+            }
+            
+            &.selected {
+              background-color: #eff6ff;
+              
+              &:hover {
+                background-color: #dbeafe;
+              }
+            }
+          }
+          
+          &:not(:last-child) td {
+            border-bottom: 1px solid #e5e7eb;
+          }
+        }
+        
+        td {
+          font-size: 14px;
+          color: #4b5563;
+          
+          &:first-child {
+            font-weight: 600;
+            color: #111827;
+          }
+          
+          &.avatar-cell {
+            padding: 8px;
+            
+            img {
+              width: 50px;
+              height: 50px;
+              border-radius: 8px;
+              object-fit: cover;
+              box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+              border: 2px solid #e5e7eb;
+              transition: transform 0.2s ease;
+              
+              &:hover {
+                transform: scale(1.1);
+              }
+            }
+          }
+          
+          &.song-title-cell {
+            .song-title {
+              font-weight: 600;
+              color: #111827;
+              margin-bottom: 4px;
+            }
+            
+            .song-subtitle {
+              font-size: 12px;
+              color: #6b7280;
+            }
+          }
+          
+          .song-genre {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            
+            &.Pop, &.pop {
+              background-color: rgba(59, 130, 246, 0.1);
+              color: #3b82f6;
+              border: 1px solid rgba(59, 130, 246, 0.2);
+            }
+            
+            &.Ballad, &.ballad {
+              background-color: rgba(236, 72, 153, 0.1);
+              color: #ec4899;
+              border: 1px solid rgba(236, 72, 153, 0.2);
+            }
+            
+            &.Rap, &.rap {
+              background-color: rgba(245, 158, 11, 0.1);
+              color: #f59e0b;
+              border: 1px solid rgba(245, 158, 11, 0.2);
+            }
+            
+            &.Foreign, &.foreign {
+              background-color: rgba(16, 185, 129, 0.1);
+              color: #10b981;
+              border: 1px solid rgba(16, 185, 129, 0.2);
+            }
+          }
+          
+          .song-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            
+            &.vip {
+              background-color: rgba(245, 158, 11, 0.1);
+              color: #f59e0b;
+              border: 1px solid rgba(245, 158, 11, 0.2);
+            }
+            
+            &.free {
+              background-color: rgba(16, 185, 129, 0.1);
+              color: #10b981;
+              border: 1px solid rgba(16, 185, 129, 0.2);
+            }
+          }
+          
+          .edit-button, .delete-button {
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+          }
+          
+          .edit-button {
+            background-color: #3b82f6;
+            color: white;
+            margin-right: 8px;
+            
+            &:hover {
+              background-color: #2563eb;
+              transform: translateY(-1px);
+            }
+          }
+          
+          .delete-button {
+            background-color: #ef4444;
+            color: white;
+            
+            &:hover {
+              background-color: #dc2626;
+              transform: translateY(-1px);
+            }
+          }
+        }
+      }
+    }
   }
   
-  .song-table tbody tr:hover {
-    background-color: #282828;
+  // Statistics Dashboard
+  .statistics-dashboard {
+    animation: fadeIn 0.5s ease-out;
+    
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+      
+      .stat-card {
+        background-color: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 12px;
+          background-color: rgba(59, 130, 246, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #3b82f6;
+          font-size: 24px;
+          
+          svg {
+            font-size: 24px;
+          }
+        }
+        
+        .stat-content {
+          flex: 1;
+          
+          h3 {
+            font-size: 16px;
+            color: #6b7280;
+            margin: 0 0 8px 0;
+            font-weight: 500;
+          }
+          
+          .stat-number {
+            font-size: 30px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0;
+          }
+          
+          .stat-percentage {
+            font-size: 14px;
+            color: #10b981;
+            margin: 8px 0 0 0;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    
+    .chart-box {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 24px;
+      
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #111827;
+        margin: 0 0 20px 0;
+        text-align: center;
+      }
+      
+      .chart-placeholder {
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f9fafb;
+        border-radius: 12px;
+        border: 1px dashed #d1d5db;
+        
+        p {
+          color: #6b7280;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  // Thêm vào file MusicList.scss
+
+// Phần statistics-dashboard đã có trong file, cần cập nhật và mở rộng
+.statistics-dashboard {
+  animation: fadeIn 0.5s ease-out;
+  padding: 25px;
+  background-color: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  // Thêm stats-header
+  .stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    
+    h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
+    }
+    
+    .stats-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      label {
+        font-weight: 500;
+        color: #4b5563;
+      }
+      
+      select {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background-color: white;
+        font-size: 14px;
+        color: #111827;
+        
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+      }
+    }
   }
   
-  .song-table td {
-    padding: 10px;
+  // Cập nhật phần stats-cards
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+    
+    .stat-card {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        
+        svg {
+          color: white;
+        }
+      }
+      
+      &:nth-child(1) .stat-icon {
+        background-color: #3b82f6;
+      }
+      
+      &:nth-child(2) .stat-icon {
+        background-color: #10b981;
+      }
+      
+      &:nth-child(3) .stat-icon {
+        background-color: #f59e0b;
+      }
+      
+      &:nth-child(4) .stat-icon {
+        background-color: #ec4899;
+      }
+      
+      .stat-content {
+        flex: 1;
+        
+        h3 {
+          font-size: 16px;
+          color: #6b7280;
+          margin: 0 0 8px 0;
+          font-weight: 500;
+        }
+        
+        .stat-number {
+          font-size: 30px;
+          font-weight: 700;
+          color: #111827;
+          margin: 0;
+        }
+        
+        .stat-description {
+          font-size: 14px;
+          color: #6b7280;
+          margin: 8px 0 0 0;
+        }
+      }
+    }
   }
   
-  .song-info {
+  // Thêm phần section-title chung
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 30px 0 20px;
+    color: #111827;
+    border-left: 4px solid #3b82f6;
+    padding-left: 12px;
+  }
+  
+  // Thêm phần stats-section cho phân tích phân loại
+  .stats-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 20px 0;
+      color: #111827;
+    }
+    
+    .category-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      
+      .comparison-item {
+        .comparison-title {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 15px;
+          color: #111827;
+        }
+        
+        .comparison-bars {
+          .comparison-bar {
+            margin-bottom: 15px;
+            
+            .bar-label {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 5px;
+              font-size: 14px;
+              color: #4b5563;
+              
+              .bar-count {
+                font-weight: 600;
+                color: #111827;
+              }
+            }
+            
+            .bar-container {
+              height: 12px;
+              background-color: #f3f4f6;
+              border-radius: 6px;
+              overflow: hidden;
+              
+              .bar {
+                height: 100%;
+                transition: width 0.5s ease;
+              }
+              
+              .free-bar {
+                background-color: #10b981;
+              }
+              
+              .vip-bar {
+                background-color: #f59e0b;
+              }
+              
+              .solo-bar {
+                background-color: #3b82f6;
+              }
+              
+              .duet-bar {
+                background-color: #ec4899;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Thêm phần charts-section cho biểu đồ
+  .charts-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    .chart-tabs {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 15px;
+      
+      .chart-tab {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: #3b82f6;
+        }
+        
+        &.active {
+          color: #3b82f6;
+          position: relative;
+          
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #3b82f6;
+            border-radius: 3px 3px 0 0;
+          }
+        }
+      }
+    }
+    
+    .charts-container {
+      .chart-box {
+        h3 {
+          text-align: center;
+          font-size: 16px;
+          margin-bottom: 20px;
+          color: #111827;
+        }
+        
+        .chart-wrapper {
+          height: 350px;
+          position: relative;
+          
+          .no-data {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9ca3af;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  // Thêm vào file MusicList.scss
+
+// Phần statistics-dashboard đã có trong file, cần cập nhật và mở rộng
+.statistics-dashboard {
+  animation: fadeIn 0.5s ease-out;
+  padding: 25px;
+  background-color: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  
+  // Thêm stats-header
+  .stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    
+    h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+      margin: 0;
+    }
+    
+    .stats-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      
+      label {
+        font-weight: 500;
+        color: #4b5563;
+      }
+      
+      select {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        background-color: white;
+        font-size: 14px;
+        color: #111827;
+        
+        &:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+      }
+    }
+  }
+  
+  // Cập nhật phần stats-cards
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+    
+    .stat-card {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      }
+      
+      .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        
+        svg {
+          color: white;
+        }
+      }
+      
+      &:nth-child(1) .stat-icon {
+        background-color: #3b82f6;
+      }
+      
+      &:nth-child(2) .stat-icon {
+        background-color: #10b981;
+      }
+      
+      &:nth-child(3) .stat-icon {
+        background-color: #f59e0b;
+      }
+      
+      &:nth-child(4) .stat-icon {
+        background-color: #ec4899;
+      }
+      
+      .stat-content {
+        flex: 1;
+        
+        h3 {
+          font-size: 16px;
+          color: #6b7280;
+          margin: 0 0 8px 0;
+          font-weight: 500;
+        }
+        
+        .stat-number {
+          font-size: 30px;
+          font-weight: 700;
+          color: #111827;
+          margin: 0;
+        }
+        
+        .stat-description {
+          font-size: 14px;
+          color: #6b7280;
+          margin: 8px 0 0 0;
+        }
+      }
+    }
+  }
+  
+  // Thêm phần section-title chung
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 30px 0 20px;
+    color: #111827;
+    border-left: 4px solid #3b82f6;
+    padding-left: 12px;
+  }
+  
+  // Thêm phần stats-section cho phân tích phân loại
+  .stats-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 20px 0;
+      color: #111827;
+    }
+    
+    .category-comparison {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      
+      .comparison-item {
+        .comparison-title {
+          font-size: 16px;
+          font-weight: 600;
+          margin-bottom: 15px;
+          color: #111827;
+        }
+        
+        .comparison-bars {
+          .comparison-bar {
+            margin-bottom: 15px;
+            
+            .bar-label {
+              display: flex;
+              justify-content: space-between;
+              margin-bottom: 5px;
+              font-size: 14px;
+              color: #4b5563;
+              
+              .bar-count {
+                font-weight: 600;
+                color: #111827;
+              }
+            }
+            
+            .bar-container {
+              height: 12px;
+              background-color: #f3f4f6;
+              border-radius: 6px;
+              overflow: hidden;
+              
+              .bar {
+                height: 100%;
+                transition: width 0.5s ease;
+              }
+              
+              .free-bar {
+                background-color: #10b981;
+              }
+              
+              .vip-bar {
+                background-color: #f59e0b;
+              }
+              
+              .solo-bar {
+                background-color: #3b82f6;
+              }
+              
+              .duet-bar {
+                background-color: #ec4899;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // Thêm phần charts-section cho biểu đồ
+  .charts-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    .chart-tabs {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 15px;
+      
+      .chart-tab {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: #3b82f6;
+        }
+        
+        &.active {
+          color: #3b82f6;
+          position: relative;
+          
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: -16px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #3b82f6;
+            border-radius: 3px 3px 0 0;
+          }
+        }
+      }
+    }
+    
+    .charts-container {
+      .chart-box {
+        h3 {
+          text-align: center;
+          font-size: 16px;
+          margin-bottom: 20px;
+          color: #111827;
+        }
+        
+        .chart-wrapper {
+          height: 350px;
+          position: relative;
+          
+          .no-data {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #9ca3af;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  
+  // Thêm phần stats-tables cho bảng thống kê
+  .stats-tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+    
+    .stats-table {
+      background-color: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      
+      h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #111827;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        
+        th, td {
+          padding: 12px;
+          text-align: left;
+          border-bottom: 1px solid #f3f4f6;
+          font-size: 14px;
+        }
+        
+        th {
+          font-weight: 600;
+          color: #6b7280;
+          background-color: #f9fafb;
+        }
+        
+        .song-info {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          
+          .song-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+          }
+        }
+        
+        .progress-bar {
+          width: 100%;
+          height: 8px;
+          background-color: #f3f4f6;
+          border-radius: 4px;
+          overflow: hidden;
+          
+          .progress {
+            height: 100%;
+            transition: width 0.5s ease;
+          }
+        }
+        
+        .no-data-cell {
+          text-align: center;
+          color: #9ca3af;
+          padding: 30px;
+        }
+        
+        .song-genre {
+          display: inline-block;
+          padding: 4px 8px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          
+          &.Pop, &.pop, &.Nhạc-trẻ {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+          }
+          
+          &.Ballad, &.ballad, &.Chữ-Tình {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #ec4899;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+          }
+          
+          &.Rap, &.rap {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+          }
+          
+          &.Foreign, &.foreign, &.Nhạc-nước-ngoài {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+        }
+      }
+    }
+  }
+  
+  // Thêm phần stats-summary
+  .stats-summary {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    .summary-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #111827;
+      text-align: center;
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      
+      .summary-item {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        
+        .summary-label {
+          font-size: 13px;
+          color: #6b7280;
+          margin-bottom: 8px;
+        }
+        
+        .summary-value {
+          font-size: 18px;
+          font-weight: 700;
+          color: #111827;
+        }
+      }
+    }
+  }
+  
+  // Responsive styles
+  @media (max-width: 1200px) {
+    .stats-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-section .category-comparison {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-tables {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-summary .summary-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .stats-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    
+    .stats-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-summary .summary-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .chart-tabs {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+  .stats-tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+    
+    .stats-table {
+      background-color: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      
+      h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #111827;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        
+        th, td {
+          padding: 12px;
+          text-align: left;
+          border-bottom: 1px solid #f3f4f6;
+          font-size: 14px;
+        }
+        
+        th {
+          font-weight: 600;
+          color: #6b7280;
+          background-color: #f9fafb;
+        }
+        
+        .song-info {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          
+          .song-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+          }
+        }
+        
+        .progress-bar {
+          width: 100%;
+          height: 8px;
+          background-color: #f3f4f6;
+          border-radius: 4px;
+          overflow: hidden;
+          
+          .progress {
+            height: 100%;
+            transition: width 0.5s ease;
+          }
+        }
+        
+        .no-data-cell {
+          text-align: center;
+          color: #9ca3af;
+          padding: 30px;
+        }
+        
+        .song-genre {
+          display: inline-block;
+          padding: 4px 8px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          
+          &.Pop, &.pop, &.Nhạc-trẻ {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+          }
+          
+          &.Ballad, &.ballad, &.Chữ-Tình {
+            background-color: rgba(236, 72, 153, 0.1);
+            color: #ec4899;
+            border: 1px solid rgba(236, 72, 153, 0.2);
+          }
+          
+          &.Rap, &.rap {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+          }
+          
+          &.Foreign, &.foreign, &.Nhạc-nước-ngoài {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+          }
+        }
+      }
+    }
+  }
+  
+  // Thêm phần stats-summary
+  .stats-summary {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    .summary-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #111827;
+      text-align: center;
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      
+      .summary-item {
+        background-color: #f9fafb;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        
+        .summary-label {
+          font-size: 13px;
+          color: #6b7280;
+          margin-bottom: 8px;
+        }
+        
+        .summary-value {
+          font-size: 18px;
+          font-weight: 700;
+          color: #111827;
+        }
+      }
+    }
+  }
+  
+  // Responsive styles
+  @media (max-width: 1200px) {
+    .stats-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stats-section .category-comparison {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-tables {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-summary .summary-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .stats-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    
+    .stats-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .stats-summary .summary-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .chart-tabs {
+      flex-wrap: wrap;
+    }
+  }
+}
+  
+  // Error messages styling
+  .error-message {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    
+    &:before {
+      content: "⚠️";
+      margin-right: 6px;
+      font-size: 12px;
+    }
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .music-management {
+    max-width: 100%;
+    padding: 30px 20px;
+    
+    .statistics-dashboard {
+      .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+        
+        .stat-card:last-child {
+          grid-column: span 2;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .music-management {
+    padding: 30px 20px;
+    
+    .tabs-navigation {
+      flex-wrap: wrap;
+      
+      .tab-button {
+        flex: 1;
+        min-width: 120px;
+      }
+    }
+    
+    .form {
+      grid-template-columns: 1fr;
+      
+      .preview {
+        margin: 10px auto;
+      }
+      
+      .save-button {
+        grid-column: 1;
+        width: 100%;
+      }
+      
+      .lyrics-editor {
+        grid-column: 1;
+      }
+    }
+    
+    .statistics-dashboard {
+      .stats-cards {
+        grid-template-columns: 1fr;
+        
+        .stat-card:last-child {
+          grid-column: auto;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .music-management {
+    padding: 20px 15px;
+    
+    .title {
+      font-size: 26px;
+    }
+    
+    .form {
+      padding: 20px;
+    }
+    
+    .song-list {
+      padding: 15px;
+      overflow-x: auto;
+      
+      table {
+        min-width: 900px;
+        
+        th, td {
+          padding: 12px 10px;
+          font-size: 13px;
+        }
+      }
+    }
+    
+    .list-controls {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+      
+      .search-box {
+        width: 100%;
+      }
+      
+      .list-filters {
+        width: 100%;
+        
+        select {
+          flex: 1;
+        }
+      }
+      
+      .add-new-btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.music-management {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes pulseButton {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.save-button:focus {
+  animation: pulseButton 1.5s infinite;
+}
+
+/* Custom scrollbar for table containers */
+.song-list, .statistics-dashboard {
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
   }
   
-  .song-cover {
-    width: 50px;
-    height: 50px;
-    border-radius: 4px;
-    object-fit: cover;
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
   }
   
-  .song-title {
-    font-size: 14px;
-    font-weight: bold;
+  &::-webkit-scrollbar-thumb {
+    background: #c5c7ca;
+    border-radius: 10px;
+    
+    &:hover {
+      background: #a0a0a0;
+    }
   }
-  
-  .song-artist {
-    font-size: 12px;
-    color: #aaa;
-  }
-  
+}
