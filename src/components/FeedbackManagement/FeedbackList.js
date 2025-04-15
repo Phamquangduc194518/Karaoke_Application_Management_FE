@@ -141,7 +141,6 @@ const FeedbackManagement = () => {
     const dataToSend = {
         request_id: selectedFeedback.id,
         content: replyText,
-        is_admin: true
       };
     try{
     const response = await createReplie(dataToSend)
@@ -503,16 +502,16 @@ const FeedbackManagement = () => {
                   <div className="message" key={index}>
                     <div className="avatar">
                       <img 
-                        src={reply.is_admin ? 'https://randomuser.me/api/portraits/men/41.jpg' : selectedFeedback.requestUser.avatar_url} 
-                        alt={reply.is_admin ? 'Admin' : selectedFeedback.requestUser.username} 
+                        src={'https://randomuser.me/api/portraits/men/41.jpg'} 
+                        alt={'Admin'} 
                       />
                     </div>
                     <div className="message-content">
                       <div className="message-header">
-                        <span className="sender">{reply.is_admin ? 'Quản trị viên' : selectedFeedback.requestUser.username}</span>
+                        <span className="sender">{'Quản trị viên'}</span>
                         <span className="time">{formatDate(reply.createdAt)}</span>
                       </div>
-                      <div className={`message-bubble ${reply.is_admin ? 'admin' : ''}`}>
+                      <div className={`message-bubble ${'admin'}`}>
                         {reply.content}
                       </div>
                     </div>

@@ -40,8 +40,16 @@ function Header() {
               </li>
             </ul>
           </li>
-          <li className="header__nav-item">
-            <Link to="/post" className="header__nav-link">Quản lý Bài Đăng</Link>
+          <li className="header__nav-item header__nav-item--dropdown">
+            <span className="header__nav-link">Quản lý Bài Đăng</span>
+            <ul className="header__dropdown">
+          <li className="header__dropdown-item">
+            <Link to="/post" className="header__dropdown-link">Quản lý Topic</Link>
+          </li>
+          <li className="header__dropdown-item">
+            <Link to="/cover_post" className="header__dropdown-link">Quản lý Bài Đăng Cover</Link>
+          </li>
+          </ul>
           </li>
           <li className="header__nav-item header__nav-item--logout">
           <button  

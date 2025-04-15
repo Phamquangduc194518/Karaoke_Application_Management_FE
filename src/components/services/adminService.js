@@ -64,6 +64,23 @@ const deleteSong = (data) =>{
 const addSongToAlbum = (data) =>{
     return api.post('/api/song/addSongToAlbum', data)
 }
+const getRecordedSongsForAdmin = () =>{
+    return api.get('/api/admin/getRecordedSongsForAdmin')
+}
+const deleteRecordedSongByAdmin = (songId) =>{
+    return api.delete(`/api/admin/deleteRecordedSongByAdmin/${songId}`)
+}
+const approveRecordedSong = (songId) =>{
+    return api.patch(`/api/admin/approveRecordedSong/${songId}`)
+}
+
+const rejectRecordedSong = (songId) =>{
+    return api.patch(`/api/admin/rejectRecordedSong/${songId}`)
+}
+
+const countRecordedSongByStatus = () =>{
+    return api.get('/api/admin/countRecordedSongByStatus')
+}
 export{
     handleLoginAPI,
     getAllAccount,
@@ -83,5 +100,10 @@ export{
     createReplie,
     updateStatus,
     deleteSong,
-    addSongToAlbum
+    addSongToAlbum,
+    getRecordedSongsForAdmin,
+    deleteRecordedSongByAdmin,
+    approveRecordedSong,
+    rejectRecordedSong,
+    countRecordedSongByStatus
 }

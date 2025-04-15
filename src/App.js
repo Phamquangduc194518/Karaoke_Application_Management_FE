@@ -12,6 +12,7 @@ import AddArtist from './components/Homepage/SongManager/AddArtist';
 import AddAlbum from './components/Homepage/SongManager/AddAlbum';
 import TopicPost from './components/Homepage/PostManager/TopicPost'
 import FeedbackManagement from './components/FeedbackManagement/FeedbackList';
+import CoverPostManager from './components/CoverPostManager/CoverPostManager';
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +84,15 @@ function App() {
               <>
               <Header/>
               <TopicPost/>
+              </>
+            </ProtectedRoute>
+          }
+          />
+          <Route path='/cover_post' element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <>
+              <Header/>
+              <CoverPostManager/>
               </>
             </ProtectedRoute>
           }
