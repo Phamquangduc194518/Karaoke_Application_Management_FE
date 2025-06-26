@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AddAlbum.scss";
-import { createAlbum, getAllAlbum, getAllArtist, updateAlbum } from "../../services/adminService";
+import { createAlbum, getAllAlbum, getAllArtist, updateAlbum } from "../../../services/adminService";
 
 const AddAlbum = () => {
 

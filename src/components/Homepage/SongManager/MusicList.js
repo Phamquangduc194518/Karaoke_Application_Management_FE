@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './MusicList.scss';
-import { getAllMusic, getAllArtist, getAllAlbum, deleteSong, addMusic, addSongToAlbum} from '../../services/adminService';
+import { getAllMusic, getAllArtist, getAllAlbum, deleteSong, addMusic, addSongToAlbum} from '../../../services/adminService';
 import { 
     FaPlay, FaPencilAlt,  FaTrash,   FaMusic,  FaEdit,   FaPlus,   FaSave,  FaTimes,   FaUpload,   FaChartBar,   FaUsers,   FaCalendarAlt,   FaStar,   FaVolumeUp 
 } from 'react-icons/fa';
@@ -68,7 +68,6 @@ const MusicList = () => {
         topSongs: []
     });
 
-    // Filter cho thống kê
     const [statsPeriod, setStatsPeriod] = useState('all');
     const [chartView, setChartView] = useState('genre');
 
@@ -128,18 +127,14 @@ const MusicList = () => {
     const calculateStatistics = (songsData) => {
         if (!songsData || songsData.length === 0) return;
 
-        // Tạo dữ liệu giả cho số lượt phát
         const totalPlays = songsData.reduce((sum, song) => sum + (Math.floor(Math.random() * 10000)), 0);
         
-        // Đếm số bài hát VIP và miễn phí
         const vipSongsCount = songsData.filter(song => song.vip_required).length;
         const freeSongsCount = songsData.length - vipSongsCount;
         
-        // Đếm số bài solo và song ca
         const duetCount = songsData.filter(song => song.is_duet).length;
         const soloCount = songsData.length - duetCount;
         
-        // Thống kê theo thể loại
         const genreMap = {};
         songsData.forEach(song => {
             const genre = song.genre || 'Không xác định';
@@ -157,7 +152,6 @@ const MusicList = () => {
             genreStats
         }));
         
-        // Thống kê theo nghệ sĩ (top 5)
         const artistMap = {};
         songsData.forEach(song => {
             const artistName = song.songArtist?.name || 'Không xác định';
@@ -165,7 +159,7 @@ const MusicList = () => {
         });
         
         const artistEntries = Object.entries(artistMap);
-        artistEntries.sort((a, b) => b[1] - a[1]); // Sắp xếp giảm dần
+        artistEntries.sort((a, b) => b[1] - a[1]);
         
         const artistStats = artistEntries.slice(0, 5).map(([name, count], index) => ({
             name,
@@ -173,7 +167,7 @@ const MusicList = () => {
             color: chartColors[index % chartColors.length]
         }));
         
-        // Tính số bài hát mới trong tháng hiện tại
+        
         const now = new Date();
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
@@ -185,12 +179,10 @@ const MusicList = () => {
                    date.getFullYear() === currentYear;
         }).length;
         
-
-        // Tạo danh sách top bài hát (giả lập theo số lượt nghe)
         const topSongs = [...songsData]
             .map(song => ({
                 ...song,
-                playCount: Math.floor(Math.random() * 5000) // Giả lập số lượt nghe
+                playCount: Math.floor(Math.random() * 5000)
             }))
             .sort((a, b) => b.playCount - a.playCount)
             .slice(0, 5);
@@ -231,7 +223,7 @@ const MusicList = () => {
         });
         setPreviewImage(song.url_image || '');
         setActiveTab('editSong');
-        setErrors({}); // Reset errors
+        setErrors({}); 
     };
 
     const handleDeleteSong = async(song, e) => {
@@ -270,7 +262,7 @@ const MusicList = () => {
 
         });
         setPreviewImage('');
-        setErrors({}); // Reset errors
+        setErrors({}); 
         setActiveTab('editSong');
     };
 
@@ -282,7 +274,6 @@ const MusicList = () => {
         });
     };
 
-    // Thêm hàm xử lý lời bài hát từ ReactQuill
     const handleLyricChange = (value) => {
         setFormData({
             ...formData,
@@ -293,13 +284,12 @@ const MusicList = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Trong thực tế, đây là nơi bạn sẽ upload file lên server
-            // và nhận URL trả về. Hiện tại chúng ta giả lập bằng URL.createObjectURL
+            
             const imageUrl = URL.createObjectURL(file);
             setPreviewImage(imageUrl);
             setFormData({
                 ...formData,
-                url_image: imageUrl // Trong thực tế, đây sẽ là URL từ server
+                url_image: imageUrl 
             });
         }
     };
@@ -315,7 +305,7 @@ const MusicList = () => {
     };
 
     const handleSaveMusic = async () => {
-        // Thêm validation
+    
         const newErrors = {};
         if (!formData.title.trim()) newErrors.title = "Tên bài hát không được để trống";
         if (!formData.subTitle.trim()) newErrors.subTitle = "Giới thiệu bài hát không được để trống";
@@ -329,7 +319,7 @@ const MusicList = () => {
 
         try {
             if (selectedSong) {
-                // Cập nhật bài hát
+            
                 const updatedSong = {
                     ...selectedSong,
                     title: formData.title,
@@ -354,7 +344,7 @@ const MusicList = () => {
                 setSongs(updatedSongs);
                 alert("Cập nhật bài hát thành công!");
             } else {
-                // Thêm bài hát mới
+               
                 const newSong = {
                     title: formData.title,
                     subTitle: formData.subTitle,
@@ -371,7 +361,6 @@ const MusicList = () => {
                 alert("Thêm bài hát mới thành công!");
             }
 
-            // Quay lại danh sách
             setActiveTab('songList');
         } catch (error) {
             console.error("Lỗi khi lưu bài hát:", error);
@@ -379,7 +368,6 @@ const MusicList = () => {
         }
     };
 
-    // Chuyển tab
     const switchTab = (tab) => {
         setActiveTab(tab);
         if (tab === 'songList') {
@@ -391,7 +379,6 @@ const MusicList = () => {
         <div className="music-management">
             <h2 className="title">QUẢN LÝ BÀI HÁT</h2>
             
-            {/* Tabs Navigation */}
             <div className="tabs-navigation">
                 <button 
                     className={`tab-button ${activeTab === 'songList' ? 'active' : ''}`}
@@ -413,7 +400,6 @@ const MusicList = () => {
                 </button>
             </div>
 
-            {/* Edit Song Form */}
             {activeTab === 'editSong' && (
                 <form className="form">
                     <div className="form-group">
@@ -548,7 +534,6 @@ const MusicList = () => {
                         </div>
                     </div>
                     
-                    {/* Thêm các trường mới */}
                     <div className="form-group">
                         <label>Hình thức trình bày:</label>
                         <select
@@ -589,7 +574,6 @@ const MusicList = () => {
                 </form>
             )}
             
-            {/* Song List */}
             {activeTab === 'songList' && (
                 <div className="song-list-section">
                     <div className="list-controls">
@@ -626,7 +610,7 @@ const MusicList = () => {
                                     <th>Tên bài hát</th>
                                     <th>Nghệ sĩ</th>
                                     <th>Thể loại</th>
-                                    <th>Trạng thái</th> {/* Thêm cột trạng thái */}
+                                    <th>Trạng thái</th> 
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -654,7 +638,7 @@ const MusicList = () => {
                                                 {song.genre || 'Không có'}
                                             </span>
                                         </td>
-                                        {/* Thêm cột VIP/Miễn phí */}
+                                       
                                         <td>
                                             <span className={`song-status ${song.vip_required ? 'vip' : 'free'}`}>
                                                 {song.vip_required ? 'VIP' : 'Miễn phí'}
@@ -685,7 +669,7 @@ const MusicList = () => {
                 </div>
             )}
             
-            {/* Thống kê chi tiết */}
+          
 {activeTab === 'statistics' && (
     <div className="statistics-dashboard">
         <div className="stats-header">
@@ -704,7 +688,6 @@ const MusicList = () => {
             </div>
         </div>
         
-        {/* Thẻ thống kê tổng quan */}
         <div className="stats-cards">
             <div className="stat-card">
                 <div className="stat-icon">
@@ -755,7 +738,6 @@ const MusicList = () => {
             </div>
         </div>
         
-        {/* Phân tích phân loại */}
         <div className="stats-section">
             <h3 className="section-title">Phân tích phân loại bài hát</h3>
             
@@ -834,7 +816,6 @@ const MusicList = () => {
             </div>
         </div>
         
-        {/* Biểu đồ thống kê */}
         <div className="charts-section">
             <div className="chart-tabs">
                 <button 
@@ -944,7 +925,6 @@ const MusicList = () => {
             </div>
         </div>
         
-        {/* Top bài hát và bảng phân tích */}
         <div className="stats-tables">
             <div className="stats-table">
                 <h3>Top 5 bài hát được nghe nhiều nhất</h3>
@@ -1041,7 +1021,6 @@ const MusicList = () => {
             </div>
         </div>
         
-        {/* Số liệu tổng hợp cuối trang */}
         <div className="stats-summary">
             <div className="summary-title">Tóm tắt thống kê</div>
             <div className="summary-grid">

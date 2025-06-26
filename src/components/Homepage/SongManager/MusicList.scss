@@ -1782,7 +1782,6 @@
   }
 }
 
-/* Responsive styles */
 @media (max-width: 1200px) {
   .music-management {
     max-width: 100%;
@@ -1892,7 +1891,7 @@
   }
 }
 
-/* Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1924,7 +1923,7 @@
   animation: pulseButton 1.5s infinite;
 }
 
-/* Custom scrollbar for table containers */
+
 .song-list, .statistics-dashboard {
   &::-webkit-scrollbar {
     width: 10px;

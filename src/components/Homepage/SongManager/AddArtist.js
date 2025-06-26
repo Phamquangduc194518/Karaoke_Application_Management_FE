@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from "react";
 import "./AddArtist.scss";
-import { createArtist, getAllArtist, updateArtist } from "../../services/adminService";
+import { createArtist, getAllArtist, updateArtist } from "../../../services/adminService";
 
 const AddArtist  = () => {
   const [artist, setArtists] = useState([]) // lưu chữ danh sách ca sĩ

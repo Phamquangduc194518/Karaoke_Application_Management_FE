@@ -76,7 +76,6 @@
   display: block;
 }
 
-/* Nút logout được thiết kế lại */
 .header__nav-item--logout {
   margin-left: 15px;
 }
@@ -136,14 +135,12 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
   
-  /* Hiệu ứng ripple khi click */
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
   }
 }
 
-/* Media query cho responsive */
 @media (max-width: 768px) {
   .header__nav-logout-button {
     padding: 8px 12px;

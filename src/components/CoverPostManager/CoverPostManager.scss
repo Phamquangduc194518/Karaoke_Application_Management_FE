@@ -571,7 +571,7 @@
           }
         }
         
-        .post-description, .reject-reason {
+        .reject-reason {
           background-color: #f9fafb;
           border-radius: 10px;
           padding: 16px;
@@ -808,7 +808,86 @@
       }
     }
   }
+  .reject-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   
+    .modal-content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 0.3s ease;
+  
+      h3 {
+        margin-top: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+  
+      textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px;
+        font-size: 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        resize: vertical;
+        outline: none;
+        display: block;           
+        box-sizing: border-box;  
+  
+        &:focus {
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+      }
+  
+      .modal-actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+  
+        .confirm-btn {
+          background-color: #ef4444;
+          color: white;
+          padding: 10px 16px;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #dc2626;
+          }
+        }
+  
+        .cancel-btn {
+          background-color: #e5e7eb;
+          color: #374151;
+          padding: 10px 16px;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+  
+          &:hover {
+            background-color: #d1d5db;
+          }
+        }
+      }
+    }
+  }  
   // Animations
   @keyframes fadeIn {
     from {

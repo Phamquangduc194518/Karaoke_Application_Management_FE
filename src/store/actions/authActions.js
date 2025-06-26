@@ -1,4 +1,4 @@
-import { handleLoginAPI } from '../../../src/components/services/adminService';
+import { handleLoginAPI } from '../../services/adminService';
 import api from '../../axiosInstance'
 // Định nghĩa các loại action
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';

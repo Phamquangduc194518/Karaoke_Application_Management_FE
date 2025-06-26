@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./TopicPost.scss";
-import { createTopic, createVideoOfTopic, getAllTopicsWithVideo } from "../../services/adminService";
+import { createTopic, createVideoOfTopic, getAllTopicsWithVideo } from "../../../services/adminService";
 
 const TopicPost = () => {
   const [newTopic, setNewTopic] = useState("");

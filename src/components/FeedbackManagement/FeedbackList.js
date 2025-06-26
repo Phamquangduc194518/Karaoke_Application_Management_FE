@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FeedbackManagement.scss';
-import { getSongRequestFromUser } from "../services//adminService";
-import {createReplie} from "../services/adminService"
-import {updateStatus} from "../services/adminService"
+import { createReplie, updateStatus, getSongRequestFromUser } from "../../services/adminService";
 
 const FeedbackManagement = () => {
   const [feedbacks, setFeedbacks] = useState([]);

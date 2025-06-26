@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UserManagement.scss';
-import { getAllAccount, updateProfile } from "../../services/adminService";
+import { getAllAccount, updateProfile, deleteAccount } from "../../../services/adminService";
 import { PieChart, Pie, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
 function UserManagement() {
@@ -111,7 +111,7 @@ function UserManagement() {
   const deleteUser = async (userId) => {
     if (window.confirm('Bạn có chắc chắn muốn xóa người dùng này không?')) {
       try {
-        await axios.delete(`users/deleteAccount/${userId}`);
+        await deleteAccount(userId)
         fetchUsers(); // Cập nhật lại danh sách sau khi xóa
       } catch (error) {
         console.error('Lỗi khi xóa người dùng:', error);
@@ -522,7 +522,7 @@ function UserManagement() {
                         {user.active ? 'Hoạt động' : 'Chưa kích hoạt'}
                       </span>
                     </td>
-                    <td>
+                    <td className="action-buttons">
                       <button
                         className="edit-button"
                         onClick={() => handleSelectUser(user)}

@@ -1,4 +1,4 @@
-import api from '../../axiosInstance';
+import api from '../axiosInstance';
 const handleLoginAPI= (email, password)=>{
     return api.post('api/admin/login',{email: email, password: password});
 };
@@ -74,12 +74,16 @@ const approveRecordedSong = (songId) =>{
     return api.patch(`/api/admin/approveRecordedSong/${songId}`)
 }
 
-const rejectRecordedSong = (songId) =>{
-    return api.patch(`/api/admin/rejectRecordedSong/${songId}`)
+const rejectRecordedSong = (songId, data) =>{
+    return api.patch(`/api/admin/rejectRecordedSong/${songId}`, data)
 }
 
 const countRecordedSongByStatus = () =>{
     return api.get('/api/admin/countRecordedSongByStatus')
+}
+
+const deleteAccount = (userId) =>{
+    return api.delete(`/api/admin/deleteAccount/${userId}`)
 }
 export{
     handleLoginAPI,
@@ -105,5 +109,6 @@ export{
     deleteRecordedSongByAdmin,
     approveRecordedSong,
     rejectRecordedSong,
-    countRecordedSongByStatus
+    countRecordedSongByStatus,
+    deleteAccount
 }

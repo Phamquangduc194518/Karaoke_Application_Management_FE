@@ -6,7 +6,7 @@ import UserManagement from './components/Homepage/UserManager/UserManagement';
 import Header from './components/Homepage/Header/Header';
 import Login from './components/Login/Login';
 import ProtectedRoute from './components/Login/ProtectedRoute';
-import { useSelector } from 'react-redux'; // Lấy trạng thái từ Redux Store
+import { useSelector } from 'react-redux';
 import MusicList from './components/Homepage/SongManager/MusicList';
 import AddArtist from './components/Homepage/SongManager/AddArtist';
 import AddAlbum from './components/Homepage/SongManager/AddAlbum';

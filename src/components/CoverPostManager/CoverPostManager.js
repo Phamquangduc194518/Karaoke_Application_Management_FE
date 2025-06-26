@@ -9,7 +9,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
   ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line 
 } from 'recharts';
-import { approveRecordedSong, countRecordedSongByStatus, deleteRecordedSongByAdmin, getRecordedSongsForAdmin, rejectRecordedSong} from '../services/adminService';
+import { approveRecordedSong, countRecordedSongByStatus, deleteRecordedSongByAdmin, getRecordedSongsForAdmin, rejectRecordedSong} from '..//..//services/adminService';
 
 
 const CoverPostManager = () => {
@@ -17,7 +17,7 @@ const CoverPostManager = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
-  const [activeTab, setActiveTab] = useState('all'); // 'all', 'pending', 'approved', 'rejected', 'stats'
+  const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [dateRange, setDateRange] = useState({ startDate: '', endDate: '' });
@@ -26,6 +26,10 @@ const CoverPostManager = () => {
     statusDistribution: [],
     topUsers: []
   });
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectReasonInput, setRejectReasonInput] = useState('');
+  const [pendingRejectPostId, setPendingRejectPostId] = useState(null);
+
   
   useEffect(() => {
     const fetchPosts = async () => {
@@ -177,9 +181,11 @@ const CoverPostManager = () => {
     try {
       await approveRecordedSong(postId);
       const updatedPosts = posts.map(post => 
-        post.id === postId ? { ...post, status: 'approved' } : post
+        post.id === postId ? { ...post, statusFromAdmin: 'approved' } : post
       );
       setPosts(updatedPosts);
+      const updatedSelectedPost = updatedPosts.find(post => post.id === postId);
+      setSelectedPost(updatedSelectedPost);
     } catch (error) {
       console.error("Error approving post:", error);
       alert("Phê duyệt bài đăng thất bại");
@@ -189,20 +195,40 @@ const CoverPostManager = () => {
   // Xử lý từ chối bài đăng
   const handleRejectPost = async (postId, e) => {
     e.stopPropagation();
-    const reason = prompt("Lý do từ chối bài đăng:");
-    if (reason !== null) {
-      try {
-        await rejectRecordedSong(postId, { reason });
-        const updatedPosts = posts.map(post => 
-          post.id === postId ? { ...post, status: 'rejected', rejectReason: reason } : post
-        );
-        setPosts(updatedPosts);
-      } catch (error) {
-        console.error("Error rejecting post:", error);
-        alert("Từ chối bài đăng thất bại");
-      }
-    }
+    setPendingRejectPostId(postId);
+    setShowRejectModal(true);
   };
+
+  const handleConfirmReject = async () => {
+    if (rejectReasonInput.trim() === '') {
+      alert('Vui lòng nhập lý do từ chối');
+      return;
+    }
+    try {
+      await rejectRecordedSong(pendingRejectPostId, { reason: rejectReasonInput });
+      const updatedPosts = posts.map(post =>
+        post.id === pendingRejectPostId
+          ? { ...post, statusFromAdmin: 'rejected', rejectReason: rejectReasonInput }
+          : post
+      );
+      const updatedSelectedPost = updatedPosts.find(post => post.id = pendingRejectPostId);
+      setPosts(updatedPosts);
+      setSelectedPost(updatedSelectedPost);
+      setShowRejectModal(false);
+      setRejectReasonInput('');
+      setPendingRejectPostId(null);
+    } catch (error) {
+      console.error("Error rejecting post:", error);
+      alert("Từ chối bài đăng thất bại");
+    }
+  };  
+  
+  const handleCloseRejectModal = () => {
+    setShowRejectModal(false);
+    setRejectReasonInput('');
+    setPendingRejectPostId(null);
+  };
+  
 
   // Xử lý chuyển tab
   const handleTabChange = (tab) => {
@@ -376,7 +402,7 @@ const CoverPostManager = () => {
                               <FaEye />
                             </button>
                             
-                            {post.status === 'pending' && (
+                            {post.statusFromAdmin === 'pending' && (
                               <>
                                 <button
                                   className="action-button approve-button"
@@ -486,25 +512,18 @@ const CoverPostManager = () => {
                       </div>
                     </div>
                   </div>
-                  
-                  {selectedPost.description && (
-                    <div className="post-description">
-                      <h4>Mô tả</h4>
-                      <p>{selectedPost.description}</p>
-                    </div>
-                  )}
-                  
-                  {selectedPost.status === 'rejected' && selectedPost.rejectReason && (
+                                    
+                  {selectedPost.statusFromAdmin === 'rejected' && selectedPost.rejectReason && (
                     <div className="reject-reason">
-                      <h4>Lý do từ chối</h4>
+                      <h4>Lý do từ chối</h4>  
                       <p>{selectedPost.rejectReason}</p>
                     </div>
                   )}
                   
                   <div className="action-buttons">
-                    {selectedPost.status === 'pending' && (
+                    {selectedPost.statusFromAdmin === 'pending' && (
                       <>
-                        <button 
+                        <button   
                           className="approve-btn" 
                           onClick={(e) => handleApprovePost(selectedPost.id, e)}
                         >
@@ -533,7 +552,7 @@ const CoverPostManager = () => {
       )}
       
       {/* Trang thống kê */}
-      {activeTab === 'stats' && (
+      {activeTab === 'stats' && ( 
         <div className="statistics-dashboard">
           <div className="stats-cards">
             <div className="stat-card">
@@ -680,6 +699,22 @@ const CoverPostManager = () => {
           </div>
         </div>
       )}
+      {showRejectModal && (
+    <div className="reject-modal">
+    <div className="modal-content">
+      <h3>Lý do từ chối bài đăng</h3>
+      <textarea
+        value={rejectReasonInput}
+        onChange={(e) => setRejectReasonInput(e.target.value)}
+        placeholder="Nhập lý do từ chối..."
+      />
+      <div className="modal-actions">
+        <button onClick={handleConfirmReject} className="confirm-btn">Xác nhận từ chối</button>
+        <button onClick={handleCloseRejectModal} className="cancel-btn">Hủy</button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
